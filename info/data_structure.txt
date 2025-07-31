@@ -1,0 +1,37 @@
+musical_preferences_analysis/
+├── config/
+│   └── config.yaml             # Archivo de configuración
+├── data/
+│   ├── raw/
+│   │   └── dataset_generos_musicales.csv
+│   ├── processed/
+│   │   ├── cleaned_data.csv
+│   │   └── cleaned_data_with_clusters.csv
+│   └── bad_data/               # Datos descartados (outliers, etc.)
+│       └── outliers.csv
+├── logs/
+│   └── pipeline_YYYY-MM-DD_HH-MM-SS.log
+├── notebooks/                    # Para experimentación y análisis exploratorio
+│   └── exploratory_analysis.ipynb
+├── reports/
+│   └── analisis_preferencias_musicales.html
+├── src/
+│   ├── __init__.py
+│   ├── main.py                   # Orquestador del pipeline
+│   ├── eda/
+│   │   └── eda.py
+│   ├── preprocessing/
+│   │   └── reprocessing.py
+│   ├── modeling/
+│   │   ├── __init__.py
+│   │   ├── kmeans.py
+│   │   ├── hierarchical.py
+│   │   └── dbscan.py
+│   └── visualization/
+│       ├── __init__.py
+│       ├── visualization.py
+│       └── templates/
+│           └── report_template.html
+├── .gitignore
+├── README.md
+└── requirements.txt              # Dependencias del proyecto

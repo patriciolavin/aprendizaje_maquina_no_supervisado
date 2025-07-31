@@ -1,0 +1,32 @@
+# Archivo de Configuración Central para el Proyecto
+# Define todas las rutas, parámetros y configuraciones para mantener el código limpio.
+
+data:
+  raw_path: "data/raw/dataset_generos_musicales.csv"
+  processed_path: "data/processed/preprocessed_data.csv"
+  bad_data_path: "data/bad_data/outliers.csv"
+  country_column: "País"
+
+logging:
+  log_path: "logs/project.log"
+  level: "INFO" # Niveles: DEBUG, INFO, WARNING, ERROR, CRITICAL
+
+reporting:
+  report_path: "reports/analisis_preferencias_musicales.html"
+  template_name: "report_template.html"
+  template_folder: "templates"
+
+analysis_params:
+  random_state: 42
+  kmeans:
+    k_range: [2, 11] # Rango para buscar k óptimo (debe ser menor que n_samples)
+    initial_k: 3
+  dbscan:
+    # Rangos para la búsqueda de los mejores parámetros
+    eps_range: [1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0]
+    min_samples_range: [2, 3, 4]
+  pca:
+    explained_variance_threshold: 0.90
+  tsne:
+    perplexity_range: [2, 3, 5, 7] # Perplexity debe ser menor que el n_samples
+    n_components: 2

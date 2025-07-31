@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Análisis de Preferencias Musicales</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            line-height: 1.6; 
+            color: #333; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0; 
+            padding: 20px;
+        }
+
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            background: #fff; 
+            padding: 40px; 
+            border-radius: 15px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        h1, h2, h3 { 
+            color: #2c3e50; 
+            margin-bottom: 20px;
+        }
+
+        h1 { 
+            text-align: center; 
+            font-size: 2.8em; 
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        h2 { 
+            font-size: 2.2em; 
+            margin-top: 50px; 
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 15px;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+        }
+
+        h3 { 
+            font-size: 1.6em; 
+            border-bottom: 2px solid #bdc3c7;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+
+        h4 {
+            font-size: 1.3em;
+            color: #34495e;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .grid-container { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); 
+            gap: 30px; 
+            margin: 30px 0;
+        }
+
+        .grid-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .grid-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .grid-item img { 
+            max-width: 100%; 
+            height: auto; 
+            border-radius: 8px; 
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .metric { 
+            background: linear-gradient(135deg, #ecf0f1 0%, #f8f9fa 100%);
+            border-left: 5px solid #3498db; 
+            padding: 20px; 
+            margin: 20px 0; 
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+
+        .interpretation { 
+            background: linear-gradient(135deg, #e8f6f3 0%, #d5f4e6 100%);
+            border-left: 5px solid #1abc9c; 
+            padding: 20px; 
+            margin: 20px 0; 
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+
+        code { 
+            background: #2c3e50; 
+            color: #ecf0f1;
+            padding: 4px 8px; 
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+        }
+
+        /* Estilos mejorados para tablas */
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td { 
+            padding: 12px 15px; 
+            text-align: left; 
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th { 
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white; 
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        /* Estilos específicos para estadísticas generales */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: 700;
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Estilos para listas */
+        ul {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        /* Estilos para párrafos */
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        /* Estilos para contenido destacado */
+        .highlight {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border-left: 4px solid #f39c12;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .author-info {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2.2em;
+            }
+
+            h2 {
+                font-size: 1.8em;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animaciones suaves */
+        .metric, .interpretation, .grid-item, .stat-card {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Análisis de Preferencias Musicales a Nivel Global</h1>
+        
+        <div class="author-info">
+            <p><strong>Autor:</strong> Patricio LAVIN Pizarro</p>
+            <p><strong>Fecha:</strong> {{ date }}</p>
+            <p><strong>Resumen Ejecutivo:</strong> Este reporte detalla el análisis de clusterización y reducción de dimensionalidad sobre datos de preferencias musicales de distintos países. Se han aplicado algoritmos como K-Means, Clustering Jerárquico y DBSCAN para identificar grupos de países con gustos similares. PCA y t-SNE se utilizaron para visualizar estos patrones. El objetivo es extraer insights culturales y de mercado a partir de la estructura de los datos.</p>
+        </div>
+
+        <h2>1. Carga y Exploración de Datos</h2>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">{{ initial_shape[0] }}</div>
+                <div class="stat-label">Países</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ initial_shape[1] - 1 }}</div>
+                <div class="stat-label">Géneros Musicales</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ bad_data_info.outlier_count }}</div>
+                <div class="stat-label">Outliers Detectados</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ bad_data_info.percentage }}</div>
+                <div class="stat-label">% de Outliers</div>
+            </div>
+        </div>
+
+        <div class="metric">
+            <h4>Información del Dataset</h4>
+            <p><strong>Método de Detección de Outliers:</strong> {{ bad_data_info.detection_method }}</p>
+            
+            <h4>Primeras filas del dataset:</h4>
+            <div class="table-container">
+                {{ head_html }}
+            </div>
+            
+            <h4>Estadísticas Generales:</h4>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>País/Estadística</th>
+                            <th>Valor Mínimo</th>
+                            <th>Valor Máximo</th>
+                            <th>Media</th>
+                            <th>Desviación Estándar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if general_stats.feature_names %}
+                            {% for i in range(general_stats.feature_names|length) %}
+                            <tr>
+                                <td><strong>{{ general_stats.feature_names[i] }}</strong></td>
+                                <td>{{ "%.4f"|format(general_stats.min[i]) }}</td>
+                                <td>{{ "%.4f"|format(general_stats.max[i]) }}</td>
+                                <td>{{ "%.4f"|format(general_stats.mean[i]) }}</td>
+                                <td>{{ "%.4f"|format(general_stats.std[i]) }}</td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="5" style="text-align: center; color: #7f8c8d;">
+                                    <em>Datos de estadísticas no disponibles en formato esperado</em>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="stats-grid" style="margin-top: 20px;">
+                <div class="stat-card">
+                    <div class="stat-value">{{ general_stats.n_samples if general_stats.n_samples else 'N/A' }}</div>
+                    <div class="stat-label">Muestras Totales</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">{{ general_stats.n_features if general_stats.n_features else 'N/A' }}</div>
+                    <div class="stat-label">Características</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interpretation">
+            <h3>Análisis de Características del Dataset</h3>
+            <p>El dataset inicial contiene las preferencias musicales, representadas como valores numéricos para diferentes géneros en {{ initial_shape[0] }} países. 
+                Un paso clave del preprocesamiento fue la detección de outliers mediante el método IQR. Aunque se detectaron, no se eliminaron, 
+                ya que la estrategia de escalado con <code>StandardScaler</code> (o una alternativa como <code>RobustScaler</code>) puede manejar 
+                estas desviaciones. Reportar estos puntos es crucial para auditorías de calidad de datos.</p>
+            
+            <p>Los datos fueron escalados (estandarizados) para que todas las variables (géneros) tengan una media de 0 y una desviación estándar de 1. 
+                Este paso es <strong>fundamental</strong> para algoritmos basados en distancia como K-Means, DBSCAN y PCA, ya que evita que los géneros 
+                con valores numéricos más altos dominen el análisis.</p>
+        </div>
+
+        <h2>2. Aplicación de Algoritmos de Clusterización</h2>
+        
+        <h3>A. K-Means</h3>
+        <div class="interpretation">
+            <h4>Análisis con K=3</h4>
+            <p>Se realizó una primera evaluación con <code>k=3</code>. Esta agrupación inicial sirve como una línea base para entender la estructura más básica de los datos. Los resultados mostraron una primera partición de los países, aunque la optimalidad de este número de clusters es cuestionable y debe ser validada.</p>
+            
+            <h4>Determinación del K Óptimo</h4>
+            <p>Para encontrar el número ideal de clusters (k), se utilizaron dos métodos cuantitativos:</p>
+            <ul>
+                <li><strong>Método del Codo (Elbow Method):</strong> Este método analiza la inercia (suma de las distancias al cuadrado de cada punto a su centroide más cercano) para diferentes valores de k. Se busca el "codo" en el gráfico, el punto donde la disminución de la inercia se vuelve marginal.</li>
+                <li><strong>Coeficiente de Silueta (Silhouette Score):</strong> Mide cuán similar es un objeto a su propio cluster (cohesión) en comparación con otros clusters (separación). El valor de <strong>k que maximiza el coeficiente de silueta</strong> es considerado el óptimo. En este análisis, el K óptimo resultó ser <strong>{{ kmeans_optimal_k }}</strong>.</li>
+            </ul>
+            
+            <div class="highlight">
+                <p><strong>Otras formas de encontrar K:</strong> Además del codo y la silueta, existe el <strong>Gap Statistic</strong>, un método más robusto que compara la inercia intra-cluster con la esperada bajo una distribución de referencia nula (datos sin clusters obvios).</p>
+            </div>
+        </div>
+
+        <div class="grid-container">
+            <div class="grid-item">
+                <h3>Método del Codo</h3>
+                <img src="data:image/png;base64,{{ kmeans_elbow_plot }}" alt="Gráfico del Codo">
+            </div>
+            <div class="grid-item">
+                <h3>Coeficiente de Silueta</h3>
+                <img src="data:image/png;base64,{{ kmeans_silhouette_plot }}" alt="Gráfico de Silueta">
+            </div>
+        </div>
+
+        <h3>B. Clustering Jerárquico</h3>
+        <div class="grid-container">
+            <div class="grid-item">
+                <h3>Dendrograma</h3>
+                <img src="data:image/png;base64,{{ hierarchical_dendrogram }}" alt="Dendrograma">
+            </div>
+            <div class="grid-item interpretation">
+                <h4>Determinación del Número Óptimo de Clusters</h4>
+                <p>El <strong>dendrograma</strong> es la visualización principal del clustering jerárquico. Muestra cómo se van fusionando los clusters en cada paso. Para determinar el número óptimo de clusters, se busca el <strong>corte vertical más largo que no cruce ninguna de las líneas horizontales extendidas (fusiones)</strong>.</p>
+                
+                <h4>Comparación con K-Means</h4>
+                <p><strong>K-Means</strong> es un algoritmo de partición que asigna cada punto a exactamente un cluster, creando grupos "esféricos". Es rápido y eficiente, pero sensible a la inicialización de los centroides.</p>
+                <p><strong>Clustering Jerárquico Aglomerativo</strong> construye una jerarquía de clusters. No requiere un número predefinido de clusters y puede capturar relaciones más complejas. Sin embargo, es computacionalmente más costoso.</p>
+            </div>
+        </div>
+
+        <h3>C. DBSCAN</h3>
+        <div class="interpretation">
+            <h4>Análisis con DBSCAN</h4>
+            <p>DBSCAN (Density-Based Spatial Clustering of Applications with Noise) es un algoritmo basado en densidad. Agrupa puntos que están muy juntos, marcando como ruido los puntos que se encuentran solos en regiones de baja densidad.</p>
+            
+            <ul>
+                <li><strong><code>eps</code> (epsilon):</strong> Define la distancia máxima entre dos muestras para que una se considere en la vecindad de la otra. Es el radio de la "búsqueda" alrededor de cada punto.</li>
+                <li><strong><code>MinPts</code> (Minimum Points):</strong> El número mínimo de puntos requeridos dentro del radio <code>eps</code> de un punto para que este sea considerado un "punto central".</li>
+            </ul>
+            
+            
+            
+            
+            
+            <div>{{ dbscan_plot }}</div>
+
+
+
+
+
+
+            <h4>Justificación de Parámetros y Resultados</h4>
+            <p>Se realizó una búsqueda sobre los rangos <code>eps={{ params.dbscan.eps_range }}</code> y <code>min_samples={{ params.dbscan.min_samples_range }}</code>. La mejor combinación fue <strong><code>eps={{ dbscan_params.eps }}</code></strong> y <strong><code>min_samples={{ dbscan_params.min_samples }}</code></strong>, evaluada mediante el coeficiente de silueta.</p>
+        </div>
+
+        <h2>3. Aplicación de Reducción de Dimensionalidad</h2>
+        
+        <h3>A. PCA (Análisis de Componentes Principales)</h3>
+        <div class="interpretation">
+            <h4>¿Qué es PCA y para qué se usa?</h4>
+            <p>El <strong>Análisis de Componentes Principales (PCA)</strong> es una técnica de reducción de dimensionalidad lineal. Su objetivo es transformar un conjunto de variables posiblemente correlacionadas en un nuevo conjunto de variables no correlacionadas llamadas <strong>componentes principales</strong>.</p>
+            
+            <h4>Interpretación de Componentes y Varianza</h4>
+            <p>Cada componente principal captura una cierta cantidad de la <strong>varianza</strong> total de los datos. La primera componente captura la mayor varianza posible, la segunda la segunda mayor, y así sucesivamente. En este análisis, se necesitaron <strong>{{ pca_n_components_90 }} componentes</strong> para explicar el 90% de la varianza.</p>
+        </div>
+
+        <div class="grid-container">
+            <div class="grid-item">
+                <h3>Varianza Explicada Acumulada por PCA</h3>
+                <img src="data:image/png;base64,{{ pca_variance_plot }}" alt="Varianza PCA">
+            </div>
+            <div class="grid-item">
+                <h3>Clusters K-Means visualizados con PCA</h3>
+                <img src="data:image/png;base64,{{ pca_kmeans_plot }}" alt="PCA Plot">
+            </div>
+        </div>
+        
+        <h3>B. t-SNE (t-Distributed Stochastic Neighbor Embedding)</h3>
+        <div class="interpretation">
+            <h4>¿Qué es t-SNE y para qué se usa?</h4>
+            <p><strong>t-SNE</strong> es una técnica de reducción de dimensionalidad <strong>no lineal</strong>, optimizada para la <strong>visualización</strong> de datos de alta dimensión en un espacio de baja dimensión (2D o 3D). A diferencia de PCA, que se enfoca en preservar la varianza global, t-SNE se especializa en preservar la <strong>estructura local</strong>.</p>
+            
+            <h4>El parámetro `perplexity`</h4>
+            <p><strong>Perplexity</strong> es el parámetro más importante de t-SNE. Se puede interpretar como una suposición sobre el número de vecinos cercanos que tiene cada punto. Los valores típicos están entre 5 y 50.</p>
+        </div>
+
+        <div class="grid-container">
+            {% for perplexity, plot_b64 in tsne_plots.items() %}
+            <div class="grid-item">
+                <h3>Visualización con t-SNE ({{ perplexity }})</h3>
+                <img src="data:image/png;base64,{{ plot_b64 }}" alt="t-SNE Plot con {{ perplexity }}">
+            </div>
+            {% endfor %}
+        </div>
+                <div class="metric">
+            <h4>Comparación de valores de Perplexity:</h4>
+            <ul>
+                <li><strong>Perplexity = 2:</strong> Muy sensible a microvariaciones. Tiende a mostrar separaciones exageradas. Agrupamientos poco estables. Útil solo para detectar outliers extremos.</li>
+                <li><strong>Perplexity = 3:</strong> Mejora levemente la estabilidad. Aún centrado en relaciones locales. Útil si se quieren ver diferencias sutiles entre países similares.</li>
+                <li><strong>Perplexity = 5:</strong> <strong>Valor óptimo</strong>. Balancea bien estructura local y global. Genera agrupaciones coherentes, consistentes con el análisis exploratorio y clustering.</li>
+                <li><strong>Perplexity = 7:</strong> Límite superior recomendado. Pierde detalle local. Tiende a unir países distintos. Menos útil en conjuntos pequeños como este.</li>
+            </ul>
+            <p><strong>Recomendación final:</strong> <code>perplexity = 5</code> entrega la mejor representación para este análisis, permitiendo una interpretación clara y alineada con los resultados de clustering previos.</p>
+        </div>
+        <h2>4. Análisis de Resultados y Conclusiones</h2>
+        
+        <div class="interpretation">
+            <h3>Comparación de Métodos de Clusterización</h3>
+            <p><strong>K-Means vs. Jerárquico vs. DBSCAN:</strong></p>
+            <ul>
+                <li><strong>Simplicidad y Velocidad:</strong> K-Means es el más rápido y simple de implementar, ideal para datasets grandes.</li>
+                <li><strong>Forma de los Clusters:</strong> K-Means asume clusters esféricos. El Jerárquico y DBSCAN son más flexibles.</li>
+                <li><strong>Manejo de Ruido:</strong> DBSCAN es el único diseñado explícitamente para identificar y separar el ruido.</li>
+            </ul>
+            
+            <h3>Comparación de PCA vs. t-SNE</h3>
+            <ul>
+                <li><strong>Lineal vs. No Lineal:</strong> PCA es lineal y preserva la estructura global. t-SNE es no lineal y preserva la estructura local.</li>
+                <li><strong>Interpretación:</strong> Los ejes de PCA tienen una interpretación matemática clara. Los ejes en t-SNE no tienen significado intrínseco.</li>
+                <li><strong>Visualización:</strong> t-SNE fue superior para visualizar la separación de los clusters, creando grupos más definidos.</li>
+            </ul>
+            
+            <h3>Interpretación Cultural y Geográfica</h3>
+            <p>Los clusters obtenidos reflejan similitudes culturales y geográficas. Es común que países como <strong>EE.UU. y Alemania</strong> aparezcan juntos, compartiendo preferencias por Rock/Pop. <strong>Chile y México</strong> forman clusters definidos por música latina. <strong>Corea y Japón</strong> se agrupan por J-Pop/K-Pop.</p>
+            
+            <h3>Tendencias Globales</h3>
+            <p>Los datos revelan una fuerte <strong>tendencia hacia la regionalización y el consumo de música local</strong>, potenciado por las plataformas de streaming. La alta popularidad de géneros como Pop y Rock en países occidentales confirma su dominio global, mientras que la formación de clusters distintos demuestra la importancia de la música regional.</p>
+        </div>
+    </div>
+</body>
+</html>
