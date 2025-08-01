@@ -1,30 +1,28 @@
-# Proyecto 1: Predicción del Rendimiento Agrícola ante el Cambio Climático
+# Proyecto 2: Segmentación de Preferencias Musicales a Nivel Global
 
-**Tags:** `Machine Learning Supervisado`, `Regresión`, `Python`, `Scikit-learn`, `Pandas`
+**Tags:** `Machine Learning No Supervisado`, `Clustering`, `K-Means`, `Python`, `Análisis de Componentes Principales (PCA)`
 
 ## Objetivo del Proyecto
 
-Este proyecto aborda el desafío de la seguridad alimentaria mediante el desarrollo de un modelo de **aprendizaje automático supervisado** para predecir el rendimiento de los cultivos. Utilizando el dataset `cambio_climatico_agricultura.csv`, que contiene variables climáticas y de producción, el objetivo es construir un modelo de regresión robusto que sirva como herramienta para la toma de decisiones en el sector agrícola.
+El objetivo de este proyecto es descubrir patrones y segmentar audiencias musicales a nivel global utilizando técnicas de **aprendizaje no supervisado**. A través de un dataset con características de canciones populares, se busca identificar grupos (clusters) de países con preferencias musicales similares, proveyendo insights valiosos para estrategias de marketing musical, recomendaciones de contenido y análisis de tendencias culturales.
 
 ## Metodología y Herramientas
 
-El flujo de trabajo se desarrolló de principio a fin, cubriendo las siguientes etapas clave:
+El análisis se enfocó en agrupar datos no etiquetados para encontrar estructuras inherentes:
 
-1.  **Análisis Exploratorio de Datos (EDA):** Se utilizó `Matplotlib` y `Seaborn` para visualizar las distribuciones de las variables, identificar correlaciones entre factores climáticos y el rendimiento, y detectar valores atípicos.
-2.  **Preprocesamiento de Datos:** Se realizó una limpieza de datos exhaustiva con `Pandas`, manejando valores nulos a través de imputación por la media, una técnica adecuada para las variables predictoras continuas de este problema de regresión.
-3.  **Modelado y Entrenamiento:**
-    * Se evaluaron y compararon múltiples algoritmos de regresión de `Scikit-learn`, como Regresión Lineal (baseline), **Random Forest Regressor** y **Gradient Boosting Regressor**.
-    * El conjunto de datos se dividió en entrenamiento y prueba (`train_test_split`) para una evaluación objetiva del rendimiento.
-4.  **Optimización y Evaluación:**
-    * Se aplicaron técnicas de **ajuste de hiperparámetros** para optimizar el modelo con mejor desempeño.
-    * El rendimiento final se midió utilizando métricas estándar de regresión como el **Error Cuadrático Medio (MSE)** y el **Error Absoluto Medio (MAE)** para interpretar la precisión del modelo en unidades del mundo real.
+1.  **Análisis Exploratorio y Preprocesamiento:** Se utilizaron `Pandas` y `NumPy` para limpiar el dataset y escalar las características (`StandardScaler`), un paso crucial para algoritmos sensibles a la distancia como K-Means.
+2.  **Reducción de Dimensionalidad (PCA):** Para visualizar los clusters en 2D y mitigar la "maldición de la dimensionalidad", se aplicó el **Análisis de Componentes Principales (PCA)**, reduciendo las múltiples características musicales a dos componentes principales que capturan la mayor parte de la varianza.
+3.  **Modelado de Clustering:**
+    * Se implementó el algoritmo **K-Means** de `Scikit-learn` para agrupar los países.
+    * Se utilizó el **Método del Codo (Elbow Method)** para determinar el número óptimo de clusters (k) a generar.
+4.  **Visualización e Interpretación:** Los clusters resultantes se visualizaron en un gráfico de dispersión usando `Matplotlib`, coloreando cada punto (país) según el segmento asignado.
 
 ## Resultados Clave
 
-El modelo final, un `Gradient Boosting Regressor` optimizado, logró predecir el rendimiento de los cultivos con un alto grado de precisión. El análisis de importancia de características (`feature importance`) reveló que **[Menciona la variable más importante que encontraste, ej: 'la temperatura máxima']** es el factor más determinante para el rendimiento, proveyendo un insight valioso para la gestión de cultivos.
+El algoritmo K-Means identificó exitosamente **[Número] clusters** distintos de preferencias musicales. Por ejemplo, se observó un cluster que agrupa a países con una fuerte preferencia por la música de alta energía y bailabilidad, mientras que otro cluster mostró una inclinación hacia la música acústica e instrumental. Estas segmentaciones permiten a la industria musical personalizar sus campañas a una escala regional precisa.
 
 ## Cómo Utilizar
 
-1.  Clona este repositorio: `git clone https://github.com/patriciolavin/aprendizaje_maquina_supervisado.git`
+1.  Clona este repositorio: `git clone https://github.com/patriciolavin/aprendizaje_maquina_no_supervisado.git`
 2.  Instala las dependencias: `pip install pandas scikit-learn matplotlib seaborn`
-3.  Ejecuta la Jupyter Notebook para ver el análisis completo.
+3.  Ejecuta la Jupyter Notebook para replicar el análisis de clustering.
