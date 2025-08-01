@@ -27,3 +27,9 @@ Este proyecto fue un fascinante salto al mundo del aprendizaje no supervisado, d
 
 * **Punto Alto:** Aplicar PCA y luego visualizar los datos en un scatter plot fue mágico. Ver cómo los puntos, que antes vivían en un espacio de muchas dimensiones, de repente formaban grupos visualmente coherentes en 2D fue la prueba de que había patrones reales que encontrar. Fue un momento de "¡Funciona!". Interpretar esos clusters (ej: "este es el grupo de música pop energética", "este es el grupo de música introspectiva") fue un desafío creativo muy satisfactorio.
 * **Punto Bajo:** La incertidumbre del "Método del Codo". A diferencia de una métrica de error clara en regresión, elegir 'k' (el número de clusters) se sintió subjetivo. El "codo" en el gráfico no siempre es nítido, lo que te obliga a tomar una decisión basada en una mezcla de la métrica y la interpretabilidad de los resultados. Te enseña a vivir con la ambigüedad y a justificar tus decisiones más allá de un simple número.
+
+## Cómo Utilizar
+
+1.  Clona este repositorio: `git clone https://github.com/patriciolavin/aprendizaje_maquina_no_supervisado.git`
+2.  Instala las dependencias: `pip install pandas scikit-learn matplotlib seaborn`
+3.  Ejecuta la Jupyter Notebook para replicar el análisis de clustering.
